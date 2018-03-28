@@ -1,0 +1,32 @@
+{
+  "name": "electron-storage-native-promises",
+  "version": "0.1.0",
+  "description": "Save data or user settings from your electron app using ES6 native promises",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/gcayetano/electron-storage-native-promises.git"
+  },
+  "keywords": [
+    "electron",
+    "storage",
+    "promises",
+    "settings",
+    "es6"
+  ],
+  "author": "gcayetano",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/gcayetano/electron-storage-native-promises/issues"
+  },
+  "homepage": "https://gitlab.com/gcayetano/electron-storage-native-promises#README",
+  "devDependencies": {
+    "electron": "^1.8.4",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0"
+  }
+}
