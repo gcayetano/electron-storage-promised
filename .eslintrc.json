@@ -1,0 +1,19 @@
+{
+    "extends": "airbnb-base",
+    "rules": {
+        "arrow-parens": ["error", "as-needed"],
+        "linebreak-style": ["error", "windows"],
+        "func-call-spacing": ["error", "always"],
+        "no-spaced-func": "off",
+        "class-methods-use-this": "off",
+        "comma-dangle": ["error", "never"],
+        "default-case": "off",
+        "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+        "no-param-reassign": "off",
+        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+        "no-shadow": "off",
+        "no-underscore-dangle": "off",
+        "padded-blocks": "off",
+        "prefer-template": "off"
+    }
+}
