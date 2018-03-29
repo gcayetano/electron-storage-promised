@@ -3,39 +3,78 @@ const path = require('path');
 const fs = require('fs');
 const jsonfile = require('jsonfile');
 
+/**
+ * A reference to the Electron app. If this framework is required within a
+ * renderer processes, we need to load the app via `remote`.
+ *
+ * @type {string}
+ */
 const app = electron.app || electron.remote.app;
+
+/**
+ * The Electron app's user data path.
+ *
+ * @type {string}
+ */
 const userData = app.getPath('userData');
 
+/**
+ * The name of the storage file
+ *
+ * @type {string}
+ */
+const defaultFileName = 'storage.json';
+
+/**
+ * The absolute path to the storage file.
+ *
+ * @type {string}
+ */
+const defaultFilePath = path.join(userData, this.options.filename);
+
+
+/**
+ * The electron-storage-native-promises Storage class
+ *
+ * @class
+ */
 class Storage {
-  constructor(options = null) {
-    this.options = null;
-    this.data = null;
+  constructor() {
 
-    // Default options
-    const defaultOptions = {
-      filename: 'config.json'
-    };
+    /**
+     * The default name of storage file.
+     *
+     * @type {string}
+     * @private
+     */
+    this._defaultFileName = defaultFileName;
 
-    if (options) {
-      this.options = options;
-    } else {
-      this.options = defaultOptions;
-    }
+    /**
+     * The absolute path to the default storage file on the disk.
+     *
+     * @type {string}
+     * @private
+     */
+    this._defaultFilePath = defaultFilePath;
 
-    // Set filepath
-    this.options.filepath = path.join(userData, this.options.filename);
-    console.log(path.join(userData, this.options.filename));
+    /**
+     * The data loaded from storage file
+     *
+     * @type {object}
+     * @private
+     */
+    this._data = null;
 
     // Create file if not exists or load data if it is
-    const found = fs.existsSync(this.options.filepath);
+    const found = fs.existsSync(this._defaultFilePath);
 
     if (!found) {
-      this.data = {};
+      this._data = {};
       jsonfile.writeFile(this.options.filepath, {}, err => {
         console.log(err);
       });
     } else {
-      this.data = jsonfile.readFileSync(this.options.filepath);
+      this._data = jsonfile.readFileSync(this.options.filepath);
     }
   }
 
@@ -45,9 +84,9 @@ class Storage {
    */
   get(key) {
     return new Promise((resolve, reject) => {
-      if (this.data && Object.keys(this.data).length > 0) {
-        if (this.data[key]) {
-          resolve(this.data[key]);
+      if (this._data && Object.keys(this._data).length > 0) {
+        if (this._data[key]) {
+          resolve(this._data[key]);
         } else {
           reject(new Error('Key not found in storage'));
         }
