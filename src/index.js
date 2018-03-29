@@ -27,22 +27,22 @@ class Storage {
     console.log(path.join(userData, this.options.filename));
 
     // Create file if not exists or load data if it is
-    fs.exists(this.options.filepath, found => {
-      if (!found) {
-        this.data = {};
-        jsonfile.writeFile(this.options.filepath, {}, err => {
-          console.log(err);
-        });
-      } else {
-        jsonfile.readFile(this.options.filepath, (err, obj) => {
-          if (err) console.log(err);
+    const found = fs.existsSync(this.options.filepath);
 
-          if (obj) {
-            this.data = obj;
-          }
-        });
-      }
-    });
+    if (!found) {
+      this.data = {};
+      jsonfile.writeFile(this.options.filepath, {}, err => {
+        console.log(err);
+      });
+    } else {
+      jsonfile.readFile(this.options.filepath, (err, obj) => {
+        if (err) console.log(err);
+
+        if (obj) {
+          this.data = obj;
+        }
+      });
+    }
   }
 
   /**
@@ -58,7 +58,7 @@ class Storage {
           reject(new Error('Key not found in storage'));
         }
       } else {
-        reject(new Error('An error ocurred. Maybe config file has not been loaded properly.'));
+        reject(new Error('An error ocurred. Maybe config file has not been loaded properly or it is empty.'));
       }
     });
   }
