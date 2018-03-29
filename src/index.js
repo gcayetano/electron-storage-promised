@@ -30,7 +30,7 @@ const defaultFileName = 'storage.json';
  *
  * @type {string}
  */
-const defaultFilePath = path.join(userData, this.options.filename);
+const defaultFilePath = path.join(userData, defaultFileName);
 
 
 /**
