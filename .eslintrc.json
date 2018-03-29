@@ -3,7 +3,7 @@
     "rules": {
         "arrow-parens": ["error", "as-needed"],
         "linebreak-style": ["error", "windows"],
-        "func-call-spacing": ["error", "always"],
+        "func-call-spacing": ["error", "never"],
         "no-spaced-func": "off",
         "class-methods-use-this": "off",
         "comma-dangle": ["error", "never"],
