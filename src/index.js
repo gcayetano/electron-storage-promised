@@ -34,7 +34,7 @@ class Storage {
           console.log(err);
         });
       } else {
-        jsonfile.readFile(this.options.filepath,(err, obj) => {
+        jsonfile.readFile(this.options.filepath, (err, obj) => {
           if (err) console.log(err);
 
           if (obj) {
@@ -50,7 +50,17 @@ class Storage {
    * @param {string} key
    */
   get(key) {
-    
+    return new Promise((resolve, reject) => {
+      if (this.data && Object.keys(this.data).length > 0) {
+        if (this.data[key]) {
+          resolve(this.data[key]);
+        } else {
+          reject(new Error('Key not found in storage'));
+        }
+      } else {
+        reject(new Error('An error ocurred. Maybe config file has not been loaded properly.'));
+      }
+    });
   }
 }
 
