@@ -35,13 +35,7 @@ class Storage {
         console.log(err);
       });
     } else {
-      jsonfile.readFile(this.options.filepath, (err, obj) => {
-        if (err) console.log(err);
-
-        if (obj) {
-          this.data = obj;
-        }
-      });
+      this.data = jsonfile.readFileSync(this.options.filepath);
     }
   }
 
