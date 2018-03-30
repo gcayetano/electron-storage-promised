@@ -97,4 +97,4 @@ class Storage {
   }
 }
 
-module.exports = Storage;
+module.exports = new Storage();
