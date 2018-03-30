@@ -71,7 +71,7 @@ class Storage {
     if (!found) {
       this._data = {};
       jsonfile.writeFile(this._defaultFilePath, {}, err => {
-        console.log(err);
+        console.error(err);
       });
     } else {
       this._data = jsonfile.readFileSync(this._defaultFilePath);
@@ -80,7 +80,10 @@ class Storage {
 
   /**
    * Get data by key from storage
+   *
    * @param {string} key
+   * @returns {Promise} Promise object with data extracted from storage file
+   * @public
    */
   get(key) {
     return new Promise((resolve, reject) => {
@@ -93,6 +96,27 @@ class Storage {
       } else {
         reject(new Error('An error ocurred. Maybe config file has not been loaded properly or it is empty.'));
       }
+    });
+  }
+
+  /**
+   * Save data to storage by key
+   *
+   * @param {string} key
+   * @param {(string|object|array)} data
+   * @returns {Promise} Promise object when data has been saved successfully
+   * @public
+   */
+  set(key, data) {
+    return new Promise((resolve, reject) => {
+      this._data[key] = data;
+      jsonfile.writeFile(this._defaultFilePath, this._data, err => {
+        if (err) {
+          reject(new Error(`An error ocurred while saving to storage file. ${err}`));
+        } else {
+          resolve();
+        }
+      });
     });
   }
 }
