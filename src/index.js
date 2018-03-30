@@ -140,7 +140,13 @@ class Storage {
         this._data[key] = keysObject[key];
       }
 
-      resolve();
+      jsonfile.writeFile(this._defaultFilePath, this._data, err => {
+        if (err) {
+          reject(new Error(`An error ocurred while saving to storage file. ${err}`));
+        } else {
+          resolve();
+        }
+      });
     });
   }
 }
