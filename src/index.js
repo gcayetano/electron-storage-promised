@@ -119,6 +119,30 @@ class Storage {
       });
     });
   }
+
+  /**
+   * Save multiple data to storage at once
+   *
+   * @param {object} keysObject
+   * @returns {Promise} Promise object when data has been saved successfully
+   * @public
+   */
+  setMultiple(keysObject) {
+    return new Promise((resolve, reject) => {
+      if (typeof keysObject !== 'object') {
+        reject(new Error('The function parameter must be an object'));
+      }
+
+      const keys = Object.keys(keysObject);
+
+      for (let i = 0, l = keys.length; i < l; i++) {
+        const key = keys[i];
+        this._data[key] = keysObject[key];
+      }
+
+      resolve();
+    });
+  }
 }
 
 module.exports = new Storage();
