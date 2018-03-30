@@ -161,6 +161,16 @@ class Storage {
       });
     });
   }
+
+  /**
+   * Returns default path of storage file
+   *
+   * @returns {string} Default path of storage file
+   * @public
+   */
+  file() {
+    return this._defaultFilePath;
+  }
 }
 
 module.exports = new Storage();
