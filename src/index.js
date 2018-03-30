@@ -100,6 +100,18 @@ class Storage {
   }
 
   /**
+   * Get all data from storage
+   *
+   * @returns {Promise} Promise object with all data from storage
+   * @public
+   */
+  getAll() {
+    return new Promise(resolve => {
+      resolve(this._data);
+    });
+  }
+
+  /**
    * Save data to storage by key
    *
    * @param {string} key
