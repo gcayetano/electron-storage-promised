@@ -13,6 +13,7 @@
         "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
         "no-shadow": "off",
         "no-underscore-dangle": "off",
+        "no-console": ["error", { "allow": ["warn", "error"] }],
         "padded-blocks": "off",
         "prefer-template": "off"
     }
