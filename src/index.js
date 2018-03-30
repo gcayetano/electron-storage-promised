@@ -84,7 +84,7 @@ class Storage {
    */
   get(key) {
     return new Promise((resolve, reject) => {
-      if (this._data && Object.keys(this._data).length > 0) {
+      if (this._data) {
         if (this._data[key]) {
           resolve(this._data[key]);
         } else {
