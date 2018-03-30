@@ -1,7 +1,7 @@
 {
   "name": "electron-storage-promised",
   "version": "0.1.0",
-  "description": "Save data or user settings from your electron app using ES6 native promises",
+  "description": "Simple package to manage the configuration of your electron app using ES6 promises",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
