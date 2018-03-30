@@ -70,11 +70,11 @@ class Storage {
 
     if (!found) {
       this._data = {};
-      jsonfile.writeFile(this.options.filepath, {}, err => {
+      jsonfile.writeFile(this._defaultFilePath, {}, err => {
         console.log(err);
       });
     } else {
-      this._data = jsonfile.readFileSync(this.options.filepath);
+      this._data = jsonfile.readFileSync(this._defaultFilePath);
     }
   }
 
