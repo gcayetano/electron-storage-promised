@@ -171,6 +171,22 @@ class Storage {
   file() {
     return this._defaultFilePath;
   }
+
+  /**
+   * Clear storage
+   *
+   * @returns {Promise} Promise object when data has been cleared successfully
+   * @public
+   */
+  clear() {
+    return new Promise((resolve, reject) => {
+      this._data = {};
+      jsonfile.writeFile(this._defaultFilePath, {}, err => {
+        reject(new Error(err));
+      });
+      resolve();
+    });
+  }
 }
 
 module.exports = new Storage();
