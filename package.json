@@ -1,0 +1,35 @@
+{
+  "name": "electron-storage-promised",
+  "version": "1.0.0",
+  "description": "Simple package to manage the configuration of your electron app using ES6 promises",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gcayetano/electron-storage-promised.git"
+  },
+  "keywords": [
+    "electron",
+    "storage",
+    "promises",
+    "settings",
+    "es6"
+  ],
+  "author": "gcayetano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gcayetano/electron-storage-promised/issues"
+  },
+  "homepage": "https://github.com/gcayetano/electron-storage-promised#README",
+  "devDependencies": {
+    "electron": "^1.8.4",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0"
+  },
+  "dependencies": {
+    "jsonfile": "^4.0.0"
+  }
+}
