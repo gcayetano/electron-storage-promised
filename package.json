@@ -1,6 +1,6 @@
 {
   "name": "electron-storage-promised",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Simple package to manage the configuration of your electron app using ES6 promises",
   "main": "src/index.js",
   "scripts": {
