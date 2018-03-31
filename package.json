@@ -18,7 +18,7 @@
     "es6"
   ],
   "author": "gcayetano",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/gcayetano/electron-storage-promised/issues"
   },
