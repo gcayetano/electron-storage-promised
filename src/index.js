@@ -215,7 +215,7 @@ class Storage {
    */
   setAll(object) {
     return new Promise((resolve, reject) => {
-      if (typeof keysObject !== 'object') {
+      if (typeof object !== 'object') {
         reject(new Error('The function parameter must be an object'));
       }
 
