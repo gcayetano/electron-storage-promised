@@ -73,6 +73,10 @@ Save multiple data to storage at once
 | --- | --- | --- |
 | object | <code>object</code> | Object with multiple keys and their values to be set |
 
+**Example**  
+```js
+// Storage example// {//   "name": "John"// }import storage from 'electron-storage-promised';storage.setAll({age: 20, country: 'United Kingdom'}).then(() => { // Success});// New Storage// {//   "name": "John",//   "age": "20",//   "country": "United Kingdom"// }
+```
 <a name="Storage+file"></a>
 
 ### storage.file() ⇒ <code>string</code>

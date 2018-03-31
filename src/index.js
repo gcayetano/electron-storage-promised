@@ -190,6 +190,25 @@ class Storage {
   /**
    * Save multiple data to storage at once
    *
+   * @example
+   * // Storage example
+   * // {
+   * //   "name": "John"
+   * // }
+   *
+   * import storage from 'electron-storage-promised';
+   *
+   * storage.setAll({age: 20, country: 'United Kingdom'}).then(() => {
+   *  // Success
+   * });
+   *
+   * // New Storage
+   * // {
+   * //   "name": "John",
+   * //   "age": "20",
+   * //   "country": "United Kingdom"
+   * // }
+   *
    * @param {object} object Object with multiple keys and their values to be set
    * @returns {Promise} Promise object when data has been saved successfully
    * @public
