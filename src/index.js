@@ -1,6 +1,6 @@
 /**
  * @author Gabriel Cayetano <https://github.com/gcayetano>
- * @version 1.0.0
+ * @version 1.1.0
  * @ignore
  */
 
@@ -224,6 +224,92 @@ class Storage {
       for (let i = 0, l = keys.length; i < l; i++) {
         const key = keys[i];
         this._data[key] = object[key];
+      }
+
+      jsonfile.writeFile(this._defaultFilePath, this._data, err => {
+        if (err) {
+          reject(new Error(`An error ocurred while saving to storage file. ${err}`));
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+
+  /**
+   * Remove key from storage
+   *
+   * @example
+   * // Storage example
+   * // {
+   * //   "name": "John",
+   * //   "age": 20
+   * // }
+   *
+   * import storage from 'electron-storage-promised';
+   *
+   * storage.delete('name').then(() => {
+   *  // Success
+   * });
+   *
+   * // New Storage
+   * // {
+   * //   "age": "20"
+   * // }
+   *
+   * @param {string} key Name of the key
+   * @returns {Promise} Promise object when key has been removed successfully
+   * @public
+   */
+  delete(key) {
+    return new Promise((resolve, reject) => {
+      delete this._data[key];
+
+      jsonfile.writeFile(this._defaultFilePath, this._data, err => {
+        if (err) {
+          reject(new Error(`An error ocurred while saving to storage file. ${err}`));
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+
+  /**
+   * Remove a set of keys from storage
+   *
+   * @example
+   * // Storage example
+   * // {
+   * //   "name": "John",
+   * //   "age": 20,
+   * //   "country": "United Kingdom"
+   * // }
+   *
+   * import storage from 'electron-storage-promised';
+   *
+   * storage.deleteAll(['name', 'age']).then(() => {
+   *  // Success
+   * });
+   *
+   * // New Storage
+   * // {
+   * //   "country": "United Kingdom"
+   * // }
+   *
+   * @param {array} keys Array of key names
+   * @returns {Promise} Promise object when keys have been removed successfully
+   * @public
+   */
+  deleteAll(keys) {
+    return new Promise((resolve, reject) => {
+      if (typeof keys !== 'object' && !Array.isArray(keys)) {
+        reject(new Error('The function parameter must be an array'));
+      }
+
+      for (let i = 0, l = keys.length; i < l; i++) {
+        const key = keys[i];
+        delete this._data[key];
       }
 
       jsonfile.writeFile(this._defaultFilePath, this._data, err => {

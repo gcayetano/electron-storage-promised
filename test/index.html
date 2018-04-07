@@ -45,6 +45,8 @@
           <option value="getAll">getAll</option>
           <option value="set">set</option>
           <option value="setAll">setAll</option>
+          <option value="delete">delete</option>
+          <option value="deleteAll">deleteAll</option>
           <option value="file">file</option>
           <option value="clear">clear</option>
         </select>
@@ -95,7 +97,9 @@
     function getAll() {
       storage.getAll().then(data => {
         result.text(JSON.stringify(data, null, 2));
+        storageBox.text(JSON.stringify(data, null, 2));
         hljs.highlightBlock(document.getElementById("result"));
+        hljs.highlightBlock(document.getElementById("storage"));
       });
     }
 
@@ -105,12 +109,7 @@
       }
 
       storage.set(key, data).then(() => {
-        storage.getAll().then(data => {
-          result.text(JSON.stringify(data, null, 2));
-          storageBox.text(JSON.stringify(data, null, 2));
-          hljs.highlightBlock(document.getElementById("result"));
-          hljs.highlightBlock(document.getElementById("storage"));
-        });
+        getAll();
       });
     }
 
@@ -120,12 +119,23 @@
       }
 
       storage.setAll(data).then(() => {
-        storage.getAll().then(data => {
-          result.text(JSON.stringify(data, null, 2));
-          storageBox.text(JSON.stringify(data, null, 2));
-          hljs.highlightBlock(document.getElementById("result"));
-          hljs.highlightBlock(document.getElementById("storage"));
-        });
+        getAll();
+      });
+    }
+
+    function del(key) {
+      storage.delete(key).then(() => {
+        getAll();
+      });
+    }
+
+    function deleteAll(array){
+      if(array.includes("[")){
+        array = JSON.parse(array);
+      }
+
+      storage.deleteAll(array).then(() => {
+        getAll();
       });
     }
 
@@ -136,12 +146,7 @@
 
     function clear() {
       storage.clear().then(() => {
-        storage.getAll().then(data => {
-          result.text(JSON.stringify(data, null, 2));
-          storageBox.text(JSON.stringify(data, null, 2));
-          hljs.highlightBlock(document.getElementById("result"));
-          hljs.highlightBlock(document.getElementById("storage"));
-        });
+        getAll();
       });
     }
 
@@ -164,6 +169,14 @@
 
       if(method === "setAll") {
         setAll(data);
+      }
+
+      if(method === "delete") {
+        del(key);
+      }
+
+      if(method === "deleteAll") {
+        deleteAll(key);
       }
 
       if(method === "file") {

@@ -10,6 +10,8 @@ The electron-storage-promised Storage class
     * [.getAll()](#Storage+getAll) ⇒ <code>Promise</code>
     * [.set(key, data)](#Storage+set) ⇒ <code>Promise</code>
     * [.setAll(object)](#Storage+setAll) ⇒ <code>Promise</code>
+    * [.delete(key)](#Storage+delete) ⇒ <code>Promise</code>
+    * [.deleteAll(keys)](#Storage+deleteAll) ⇒ <code>Promise</code>
     * [.file()](#Storage+file) ⇒ <code>string</code>
     * [.clear()](#Storage+clear) ⇒ <code>Promise</code>
 
@@ -76,6 +78,40 @@ Save multiple data to storage at once
 **Example**  
 ```js
 // Storage example// {//   "name": "John"// }import storage from 'electron-storage-promised';storage.setAll({age: 20, country: 'United Kingdom'}).then(() => { // Success});// New Storage// {//   "name": "John",//   "age": "20",//   "country": "United Kingdom"// }
+```
+<a name="Storage+delete"></a>
+
+### storage.delete(key) ⇒ <code>Promise</code>
+Remove key from storage
+
+**Kind**: instance method of [<code>Storage</code>](#Storage)  
+**Returns**: <code>Promise</code> - Promise object when key has been removed successfully  
+**Access**: public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| key | <code>string</code> | Name of the key |
+
+**Example**  
+```js
+// Storage example// {//   "name": "John",//   "age": 20// }import storage from 'electron-storage-promised';storage.delete('name').then(() => { // Success});// New Storage// {//   "age": "20"// }
+```
+<a name="Storage+deleteAll"></a>
+
+### storage.deleteAll(keys) ⇒ <code>Promise</code>
+Remove a set of keys from storage
+
+**Kind**: instance method of [<code>Storage</code>](#Storage)  
+**Returns**: <code>Promise</code> - Promise object when keys have been removed successfully  
+**Access**: public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| keys | <code>array</code> | Array of key names |
+
+**Example**  
+```js
+// Storage example// {//   "name": "John",//   "age": 20,//   "country": "United Kingdom"// }import storage from 'electron-storage-promised';storage.deleteAll(['name', 'age']).then(() => { // Success});// New Storage// {//   "country": "United Kingdom"// }
 ```
 <a name="Storage+file"></a>
 
