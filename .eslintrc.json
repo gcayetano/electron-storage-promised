@@ -15,6 +15,7 @@
         "no-underscore-dangle": "off",
         "no-console": ["error", { "allow": ["warn", "error"] }],
         "padded-blocks": "off",
-        "prefer-template": "off"
+        "prefer-template": "off",
+        "no-lonely-if": "off"
     }
 }

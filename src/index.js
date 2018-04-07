@@ -8,6 +8,7 @@ const electron = require('electron');
 const path = require('path');
 const fs = require('fs');
 const jsonfile = require('jsonfile');
+const utils = require('./utils');
 
 /**
  * A reference to the Electron app. If this framework is required within a
@@ -97,26 +98,62 @@ class Storage {
    * @example
    * // Storage example
    * // {
-   * //   "name": "John"
+   * //   "user": {
+   * //     "name": "John",
+   * //     "password": "123"
+   * //     "messages": 50
+   * //   }
    * // }
    *
    * import storage from 'electron-storage-promised';
    *
-   * storage.get('name').then(value => {
+   * // Search for a top key
+   * storage.get('user').then(value => {
+   *  console.log(value); // => { user: { name: "John", "password": "123", messages: 50 } }
+   * });
+   *
+   * // Search for a deep key using string
+   * storage.get('user.name').then(value => {
    *  console.log(value); // => John
    * });
    *
-   * @param {string} key Key to search in storage
+   * // Search for a deep key using array
+   * storage.get(['user', 'name']).then(value => {
+   *  console.log(value); // => John
+   * });
+   *
+   * @param {(string|array)} key Key to search in storage. Now support deep search using `.` (dot) separator or array
    * @returns {Promise} `string|object|array` extracted from storage file
    * @public
    */
   get(key) {
     return new Promise((resolve, reject) => {
       if (this._data) {
-        if (this._data[key]) {
-          resolve(this._data[key]);
-        } else {
-          reject(new Error('Key not found in storage'));
+        if (typeof key === 'string') {
+          if (key.includes('.')) {
+            const keys = key.split('.');
+            const result = utils._getDeepObjectKeyValue(keys, this._data);
+
+            if (result) {
+              resolve(result);
+            } else {
+              reject(new Error('Key not found in storage'));
+            }
+          } else {
+            if (this._data[key]) {
+              resolve(this._data[key]);
+            } else {
+              reject(new Error('Key not found in storage'));
+            }
+          }
+        } else if (typeof key === 'object' && Array.isArray(key)) {
+          const result = utils._getDeepObjectKeyValue(key, this._data);
+
+          if (result) {
+            resolve(result);
+          } else {
+            reject(new Error('Key not found in storage'));
+          }
         }
       } else {
         reject(new Error('An error ocurred. Maybe config file has not been loaded properly or it is empty.'));

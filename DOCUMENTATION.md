@@ -26,11 +26,11 @@ Get data by key from storage
 
 | Param | Type | Description |
 | --- | --- | --- |
-| key | <code>string</code> | Key to search in storage |
+| key | <code>string</code> \| <code>array</code> | Key to search in storage. Now support deep search using `.` (dot) separator or array |
 
 **Example**  
 ```js
-// Storage example// {//   "name": "John"// }import storage from 'electron-storage-promised';storage.get('name').then(value => { console.log(value); // => John});
+// Storage example// {//   "user": {//     "name": "John",//     "password": "123"//     "messages": 50//   }// }import storage from 'electron-storage-promised';// Search for a top keystorage.get('user').then(value => { console.log(value); // => { user: { name: "John", "password": "123", messages: 50 } }});// Search for a deep key using stringstorage.get('user.name').then(value => { console.log(value); // => John});// Search for a deep key using arraystorage.get(['user', 'name']).then(value => { console.log(value); // => John});
 ```
 <a name="Storage+getAll"></a>
 
