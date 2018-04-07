@@ -21,6 +21,28 @@ var storage = require('electron-storage-promised');
 ```
 See [API Documentation](https://github.com/gcayetano/electron-storage-promised/blob/master/DOCUMENTATION.md) for more details.
 
+## Test
+
+Clone this repository
+
+```sh
+$ git clone https://github.com/gcayetano/electron-storage-promised.git
+```
+
+Go to cloned repository
+
+```sh
+$ cd electron-storage-promised
+```
+
+Run test
+
+```sh
+$ npm test
+```
+
+This command will open a tool (made with electron) where you can test all methods included in this project.
+
 ## Author
 
 **Gabriel Cayetano** _(gcayetano)_

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Testing Tool (electron-storage-promised)</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="github.min.css">
+  <script src="highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+
+  <!-- https://stackoverflow.com/questions/32621988/electron-jquery-is-not-defined -->
+  <!-- Insert this line above script imports  -->
+  <script>
+    if (typeof module === 'object') {
+      window.module = module;
+      module = undefined;
+    }
+  </script>
+  <!-- normal script imports etc  -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <!-- Insert this line after script imports -->
+  <script>
+    if (window.module) module = window.module;
+  </script>
+
+  <style>
+    .col {
+      margin: 0;
+      padding: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <select class="form-control" id="method">
+          <option value="get">get</option>
+          <option value="getAll">getAll</option>
+          <option value="set">set</option>
+          <option value="setAll">setAll</option>
+          <option value="file">file</option>
+          <option value="clear">clear</option>
+        </select>
+      </div>
+      <div class="col">
+        <input class="form-control" id="key" type="text" placeholder="key if needed" />
+      </div>
+      <div class="col">
+        <input class="form-control" id="data" type="text" placeholder="data if needed" />
+      </div>
+      <div class="col">
+        <button id="testBtn" class="btn btn-primary">Test</button>
+      </div>
+    </div>
+    <div class="row" style="margin-top:15px;">
+      <div class="col-6">
+        <h4>Storage:</h4>
+        <pre>
+          <code id="storage" class="json"></code>
+        </pre>
+      </div>
+      <div class="col-6">
+        <h4>Result:</h4>
+        <pre>
+          <code id="result" class="json"></code>
+        </pre>
+      </div>
+    </div>
+  </div>
+  <script>
+    const storage = require('../src/index.js');
+
+    const storageBox = $("#storage");
+    const result = $("#result");
+    const testBtn = $("#testBtn");
+
+    function get(key) {
+      storage.get(key).then(data => {
+        if(typeof data === 'object') {
+          data = JSON.stringify(data, null, 2);
+        }
+        
+        result.text(data);
+        hljs.highlightBlock(document.getElementById("result"));
+      });
+    }
+
+    function getAll() {
+      storage.getAll().then(data => {
+        result.text(JSON.stringify(data, null, 2));
+        hljs.highlightBlock(document.getElementById("result"));
+      });
+    }
+
+    function set(key, data) {
+      if(data.includes('{') || data.includes('[')){
+        data = JSON.parse(data);
+      }
+
+      storage.set(key, data).then(() => {
+        storage.getAll().then(data => {
+          result.text(JSON.stringify(data, null, 2));
+          storageBox.text(JSON.stringify(data, null, 2));
+          hljs.highlightBlock(document.getElementById("result"));
+          hljs.highlightBlock(document.getElementById("storage"));
+        });
+      });
+    }
+
+    function setAll(data) {
+      if(data.includes('{') || data.includes('[')){
+        data = JSON.parse(data);
+      }
+
+      storage.setAll(data).then(() => {
+        storage.getAll().then(data => {
+          result.text(JSON.stringify(data, null, 2));
+          storageBox.text(JSON.stringify(data, null, 2));
+          hljs.highlightBlock(document.getElementById("result"));
+          hljs.highlightBlock(document.getElementById("storage"));
+        });
+      });
+    }
+
+    function file() {
+      result.text(storage.file());
+      hljs.highlightBlock(document.getElementById("result"));
+    }
+
+    function clear() {
+      storage.clear().then(() => {
+        storage.getAll().then(data => {
+          result.text(JSON.stringify(data, null, 2));
+          storageBox.text(JSON.stringify(data, null, 2));
+          hljs.highlightBlock(document.getElementById("result"));
+          hljs.highlightBlock(document.getElementById("storage"));
+        });
+      });
+    }
+
+    testBtn.on("click", function () {
+      const method = $("#method").val();
+      const key = $("#key").val();
+      const data = $("#data").val();
+
+      if (method === "get") {
+        get(key);
+      }
+
+      if (method === "getAll") {
+        getAll();
+      }
+
+      if(method === "set") {
+        set(key, data);
+      }
+
+      if(method === "setAll") {
+        setAll(data);
+      }
+
+      if(method === "file") {
+        file();
+      }
+
+      if(method === "clear") {
+        clear();
+      }
+    });
+
+    storage.getAll().then(data => {
+      storageBox.text(JSON.stringify(data, null, 2));
+      hljs.highlightBlock(document.getElementById("storage"));
+    });
+  </script>
+</body>
+
+</html>
