@@ -129,25 +129,22 @@ class Storage {
   get(key) {
     return new Promise((resolve, reject) => {
       if (this._data) {
+        let keys = key;
+
+        if (typeof key !== 'string' && !Array.isArray(key)) {
+          reject(new Error('The function parameter must be a string or an array of strings.'));
+        }
+
         if (typeof key === 'string') {
-          const keys = key.split('.');
-          const result = utils._getDeepObjectKeyValue(keys, this._data);
+          keys = key.split('.');
+        }
 
-          if (result) {
-            resolve(result);
-          } else {
-            reject(new Error('Key not found in storage'));
-          }
-        } else if (typeof key === 'object' && Array.isArray(key)) {
-          const result = utils._getDeepObjectKeyValue(key, this._data);
+        const result = utils._getDeepObjectKeyValue(keys, this._data);
 
-          if (result) {
-            resolve(result);
-          } else {
-            reject(new Error('Key not found in storage'));
-          }
+        if (result) {
+          resolve(result);
         } else {
-          reject(new Error('The function parameter must be a string or an array of string.'));
+          reject(new Error('Key not found in storage'));
         }
       } else {
         reject(new Error('An error ocurred. Maybe config file has not been loaded properly or it is empty.'));
