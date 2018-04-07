@@ -16,6 +16,7 @@
         "no-console": ["error", { "allow": ["warn", "error"] }],
         "padded-blocks": "off",
         "prefer-template": "off",
-        "no-lonely-if": "off"
+        "no-lonely-if": "off",
+        "max-len": 0
     }
 }

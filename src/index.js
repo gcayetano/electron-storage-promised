@@ -122,7 +122,7 @@ class Storage {
    *  console.log(value); // => John
    * });
    *
-   * @param {(string|array)} key Key to search in storage. Now support deep search using `.` (dot) separator or array
+   * @param {(string|array)} key Key to search in storage. Now support deep search using `.` (dot) separator or array of strings
    * @returns {Promise} `string|object|array` extracted from storage file
    * @public
    */
@@ -130,21 +130,13 @@ class Storage {
     return new Promise((resolve, reject) => {
       if (this._data) {
         if (typeof key === 'string') {
-          if (key.includes('.')) {
-            const keys = key.split('.');
-            const result = utils._getDeepObjectKeyValue(keys, this._data);
+          const keys = key.split('.');
+          const result = utils._getDeepObjectKeyValue(keys, this._data);
 
-            if (result) {
-              resolve(result);
-            } else {
-              reject(new Error('Key not found in storage'));
-            }
+          if (result) {
+            resolve(result);
           } else {
-            if (this._data[key]) {
-              resolve(this._data[key]);
-            } else {
-              reject(new Error('Key not found in storage'));
-            }
+            reject(new Error('Key not found in storage'));
           }
         } else if (typeof key === 'object' && Array.isArray(key)) {
           const result = utils._getDeepObjectKeyValue(key, this._data);
@@ -154,6 +146,8 @@ class Storage {
           } else {
             reject(new Error('Key not found in storage'));
           }
+        } else {
+          reject(new Error('The function parameter must be a string or an array of string.'));
         }
       } else {
         reject(new Error('An error ocurred. Maybe config file has not been loaded properly or it is empty.'));

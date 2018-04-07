@@ -26,7 +26,7 @@ Get data by key from storage
 
 | Param | Type | Description |
 | --- | --- | --- |
-| key | <code>string</code> \| <code>array</code> | Key to search in storage. Now support deep search using `.` (dot) separator or array |
+| key | <code>string</code> \| <code>array</code> | Key to search in storage. Now support deep search using `.` (dot) separator or array of strings |
 
 **Example**  
 ```js
