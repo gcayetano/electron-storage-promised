@@ -43,6 +43,12 @@ $ npm test
 
 This command will open a tool (made with electron) where you can test all methods included in this project.
 
+## :star: Support
+
+If you are using and enjoying my work, maybe you could buy me a beer :beer: or a coffee :coffee:
+
+**Please [click here to donate via PayPal](paypal.me/gcayetano) - generosity motivates me to keep working on this.**
+
 ## Author
 
 **Gabriel Cayetano** _(gcayetano)_
