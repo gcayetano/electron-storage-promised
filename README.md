@@ -47,7 +47,7 @@ This command will open a tool (made with electron) where you can test all method
 
 If you are using and enjoying my work, maybe you could buy me a beer :beer: or a coffee :coffee:
 
-**Please [click here to donate via PayPal](paypal.me/gcayetano) - generosity motivates me to keep working on this.**
+**Please [click here to donate via PayPal](https://www.paypal.me/gcayetano) generosity motivates me to keep working on this.**
 
 ## Author
 
