@@ -96,6 +96,7 @@ class Storage {
    * Get data by key from storage
    *
    * @example
+   * ```js
    * // Storage example
    * // {
    * //   "user": {
@@ -104,7 +105,8 @@ class Storage {
    * //     "messages": 50
    * //   }
    * // }
-   *
+   * ```
+   * ```js
    * import storage from 'electron-storage-promised';
    *
    * // Search for a top key
@@ -117,10 +119,11 @@ class Storage {
    *  console.log(value); // => John
    * });
    *
-   * // Search for a deep key using array
+   * // Search for a deep key using array of strings
    * storage.get(['user', 'name']).then(value => {
    *  console.log(value); // => John
    * });
+   * ```
    *
    * @param {(string|array)} key Key to search in storage. Now support deep search using `.` (dot) separator or array of strings
    * @returns {Promise} `string|object|array` extracted from storage file
@@ -156,16 +159,19 @@ class Storage {
    * Get all data from storage
    *
    * @example
+   * ```js
    * // Storage example
    * // {
    * //   "name": "John"
    * // }
-   *
+   * ```
+   * ```js
    * import storage from 'electron-storage-promised';
    *
    * storage.getAll().then(data => {
    *  console.log(data); // => `object` {name: 'John'}
    * });
+   * ```
    *
    * @returns {Promise} `object` with all data from storage
    * @public
@@ -180,31 +186,63 @@ class Storage {
    * Save data to storage by key
    *
    * @example
+   * ```js
    * // Storage example
    * // {
-   * //   "name": "John"
+   * //   "user": {
+   * //     "name": "John",
+   * //     "password": "123"
+   * //     "messages": 50
+   * //   }
    * // }
-   *
+   * ```
+   * ```js
    * import storage from 'electron-storage-promised';
    *
-   * storage.set('age', 20).then(() => {
+   * // Set a top key
+   * storage.set('myKey', 'myValue').then(() => {
    *  // Success
+   * });
+   *
+   * // Set a deep key using string
+   * storage.set('user.password', 'test').then(() => {
+   *  //Success
+   * });
+   *
+   * // Set a deep key using array of strings
+   * storage.set(['user', 'messages'], 100).then(() => {
+   *  //Success
    * });
    *
    * // New Storage
    * // {
-   * //   "name": "John",
-   * //   "age": "20"
+   * //   "user": {
+   * //     "name": "John",
+   * //     "password": "test"
+   * //     "messages": 100
+   * //   },
+   * //   "myKey": "myValue"
    * // }
+   * ```
    *
-   * @param {string} key Name of the key
+   * @param {string} key Name of the key. Now support deep search using `.` (dot) separator or array of strings
    * @param {(string|object|array)} data Value of the key
    * @returns {Promise} Promise object when data has been saved successfully
    * @public
    */
   set(key, data) {
     return new Promise((resolve, reject) => {
-      this._data[key] = data;
+      let keys = key;
+
+      if (typeof key !== 'string' && !Array.isArray(key)) {
+        reject(new Error('The function parameter must be a string or an array of strings.'));
+      }
+
+      if (typeof key === 'string') {
+        keys = key.split('.');
+      }
+
+      this._data = utils._setDeepObjectKeyValue(keys, this._data, data);
       jsonfile.writeFile(this._defaultFilePath, this._data, err => {
         if (err) {
           reject(new Error(`An error ocurred while saving to storage file. ${err}`));
@@ -219,11 +257,13 @@ class Storage {
    * Save multiple data to storage at once
    *
    * @example
+   * ```js
    * // Storage example
    * // {
    * //   "name": "John"
    * // }
-   *
+   * ```
+   * ```js
    * import storage from 'electron-storage-promised';
    *
    * storage.setAll({age: 20, country: 'United Kingdom'}).then(() => {
@@ -236,6 +276,7 @@ class Storage {
    * //   "age": "20",
    * //   "country": "United Kingdom"
    * // }
+   * ```
    *
    * @param {object} object Object with multiple keys and their values to be set
    * @returns {Promise} Promise object when data has been saved successfully
@@ -268,12 +309,14 @@ class Storage {
    * Remove key from storage
    *
    * @example
+   * ```js
    * // Storage example
    * // {
    * //   "name": "John",
    * //   "age": 20
    * // }
-   *
+   * ```
+   * ```js
    * import storage from 'electron-storage-promised';
    *
    * storage.delete('name').then(() => {
@@ -284,6 +327,7 @@ class Storage {
    * // {
    * //   "age": "20"
    * // }
+   * ```
    *
    * @param {string} key Name of the key
    * @returns {Promise} Promise object when key has been removed successfully
@@ -307,13 +351,15 @@ class Storage {
    * Remove a set of keys from storage
    *
    * @example
+   * ```js
    * // Storage example
    * // {
    * //   "name": "John",
    * //   "age": 20,
    * //   "country": "United Kingdom"
    * // }
-   *
+   * ```
+   * ```js
    * import storage from 'electron-storage-promised';
    *
    * storage.deleteAll(['name', 'age']).then(() => {
@@ -324,6 +370,7 @@ class Storage {
    * // {
    * //   "country": "United Kingdom"
    * // }
+   * ```
    *
    * @param {array} keys Array of key names
    * @returns {Promise} Promise object when keys have been removed successfully
@@ -370,11 +417,13 @@ class Storage {
    * Clear storage
    *
    * @example
+   * ```js
    * // Storage example
    * // {
    * //   "name": "John"
    * // }
-   *
+   * ```
+   * ```js
    * import storage from 'electron-storage-promised';
    *
    * storage.clear().then(() => {
@@ -383,6 +432,7 @@ class Storage {
    *
    * // New Storage
    * // {}
+   * ```
    *
    * @returns {Promise} Promise object when data has been cleared successfully
    * @public

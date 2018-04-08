@@ -108,6 +108,10 @@
     }
 
     function set(key, data) {
+      if(key.includes('[')){
+        key = JSON.parse(key);
+      }
+      
       if(data.includes('{') || data.includes('[')){
         data = JSON.parse(data);
       }
